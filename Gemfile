@@ -52,6 +52,9 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
+  # Add RuboCop for code linting
+  gem 'rubocop', '1.71.2', require: false
+
 
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
@@ -66,3 +69,8 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+group :production do
+  # Use PostgreSQL as the database for production (Render用)
+  gem "pg"
+end
+
