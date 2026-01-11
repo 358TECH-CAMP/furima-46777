@@ -15,4 +15,9 @@ class User < ApplicationRecord
   validates :first_name_kana, :last_name_kana,
             presence: true,
             format: { with: /\A[ァ-ヶー]+\z/ }
+  # パスワードの英数字混合チェック
+  validates :password,
+            format: { with: /\A(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+\z/,
+                      message: 'は英字と数字の両方を含めてください' },
+            if: -> { password.present? }
 end
