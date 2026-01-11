@@ -11,7 +11,21 @@
 </head>
 
 <body>
-  <%= yield %>
+     <!-- ヘッダー -->
+    <%= render "shared/header" %>
+
+    <!-- フラッシュメッセージ -->
+    <% flash.each do |key, value| %>
+      <div class="flash <%= key %>">
+        <%= value %>
+      </div>
+    <% end %>
+
+    <!-- 各ページの中身 -->
+    <%= yield %>
+
+    <!-- フッター -->
+    <%= render "shared/footer" %>
 </body>
 
 </html>
