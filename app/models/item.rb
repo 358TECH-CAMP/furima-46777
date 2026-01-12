@@ -17,10 +17,11 @@ class Item < ApplicationRecord
   belongs_to :scheduled_delivery
 
   # バリデーション（必須項目）
-  validates :name, :description, :price, :image, presence: true
+  validates :name, :info, :price, :image, presence: true
 
   # 「---（id:0）」が選択されていないことを確認
-  validates :category_id, :status_id, :delivery_fee_id, :prefecture_id, :scheduled_delivery_id,
+  validates :category_id, :status_id, :delivery_fee_id,
+            :prefecture_id, :scheduled_delivery_id,
             numericality: { other_than: 0, message: "can't be blank" }
 
   # 価格のバリデーション
