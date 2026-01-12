@@ -10,7 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_01_11_090313) do
+ActiveRecord::Schema[7.1].define(version: 2026_01_12_065309) do
+  create_table "items", charset: "utf8mb3", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.integer "price"
+    t.bigint "user_id", null: false
+    t.integer "category_id"
+    t.integer "status_id"
+    t.integer "delivery_fee_id"
+    t.integer "prefecture_id"
+    t.integer "scheduled_delivery_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_items_on_user_id"
+  end
+
   create_table "users", charset: "utf8mb3", force: :cascade do |t|
     t.string "nickname", null: false
     t.string "last_name", null: false
@@ -25,4 +40,5 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_11_090313) do
     t.datetime "remember_created_at"
   end
 
+  add_foreign_key "items", "users"
 end
