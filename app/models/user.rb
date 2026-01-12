@@ -1,23 +1,38 @@
+# app/models/user.rb
 class User < ApplicationRecord
+  # Deviseモジュール
   devise :database_authenticatable,
          :registerable,
          :recoverable,
-         #  :rememberable,
+         # :rememberable,
          :validatable
 
-  validates :nickname, presence: true
-  validates :birth_date, presence: true
+  # ニックネーム
+  validates :nickname, presence: { message: 'を入力してください' }
 
-  validates :first_name, :last_name,
-            presence: true,
-            format: { with: /\A[ぁ-んァ-ヶ一-龥々ー]+\z/ }
+  # 生年月日
+  validates :birth_date, presence: { message: 'を入力してください' }
 
-  validates :first_name_kana, :last_name_kana,
-            presence: true,
-            format: { with: /\A[ァ-ヶー]+\z/ }
-  # パスワードの英数字混合チェック
-  validates :password,
-            format: { with: /\A(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+\z/,
-                      message: 'は英字と数字の両方を含めてください' },
-            if: -> { password.present? }
+  # 名前（全角）
+  validates :first_name, presence: { message: 'を入力してください' },
+                         format: { with: /\A[ぁ-んァ-ヶ一-龥々ー]+\z/, message: 'は全角文字を使用してください' }
+  validates :last_name, presence: { message: 'を入力してください' },
+                        format: { with: /\A[ぁ-んァ-ヶ一-龥々ー]+\z/, message: 'は全角文字を使用してください' }
+
+  # 名前（カナ）
+  validates :first_name_kana, presence: { message: 'を入力してください' },
+                              format: { with: /\A[ァ-ヶー]+\z/, message: 'は全角カタカナを使用してください' }
+  validates :last_name_kana, presence: { message: 'を入力してください' },
+                             format: { with: /\A[ァ-ヶー]+\z/, message: 'は全角カタカナを使用してください' }
+
+  # email
+  validates :email, presence: { message: 'を入力してください' },
+                    uniqueness: { message: 'はすでに存在します' },
+                    format: { with: URI::MailTo::EMAIL_REGEXP, message: 'は不正な値です' }
+
+  # password（英数字混合・6文字以上）
+  validates :password, presence: { message: 'を入力してください' },
+                       length: { minimum: 6, message: 'は6文字以上で入力してください' },
+                       format: { with: /\A(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+\z/, message: 'は英字と数字の両方を含めてください' },
+                       confirmation: { message: 'とPasswordが一致しません' }
 end
