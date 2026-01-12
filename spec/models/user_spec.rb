@@ -4,7 +4,7 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   describe 'ユーザー新規登録' do
     before do
-      @user = FactoryBot.build(:user) # FactoryBotで共通インスタンス生成
+      @user = FactoryBot.build(:user)
     end
 
     context '正常系' do
@@ -14,14 +14,12 @@ RSpec.describe User, type: :model do
     end
 
     context '異常系' do
-      # ニックネーム
       it 'nicknameが空では登録できない' do
         @user.nickname = ''
         @user.valid?
         expect(@user.errors.full_messages).to include('Nickname を入力してください')
       end
 
-      # メールアドレス
       it 'emailが空では登録できない' do
         @user.email = ''
         @user.valid?
@@ -41,7 +39,6 @@ RSpec.describe User, type: :model do
         expect(@user.errors.full_messages).to include('Email は不正な値です')
       end
 
-      # パスワード
       it 'passwordが空では登録できない' do
         @user.password = ''
         @user.password_confirmation = ''
@@ -80,10 +77,9 @@ RSpec.describe User, type: :model do
       it 'passwordとpassword_confirmationが不一致では登録できない' do
         @user.password_confirmation = '000001'
         @user.valid?
-        expect(@user.errors.full_messages).to include('Password confirmation と Password が一致しません')
+        expect(@user.errors.full_messages).to include('Password confirmation とPasswordが一致しません')
       end
 
-      # 名前（全角）
       it 'first_nameに半角文字が含まれていると登録できない' do
         @user.first_name = 'Taro'
         @user.valid?
@@ -96,7 +92,6 @@ RSpec.describe User, type: :model do
         expect(@user.errors.full_messages).to include('Last name は全角文字を使用してください')
       end
 
-      # 名前（カナ）
       it 'first_name_kanaにカタカナ以外の文字が含まれていると登録できない' do
         @user.first_name_kana = 'たろう'
         @user.valid?
