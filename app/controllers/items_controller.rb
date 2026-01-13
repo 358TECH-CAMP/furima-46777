@@ -1,5 +1,10 @@
 class ItemsController < ApplicationController
+  # ログインしていない場合はログインページへリダイレクト
   before_action :authenticate_user!, only: [:new, :create]
+
+  def index
+    @items = Item.all.order(created_at: :desc)
+  end
 
   def new
     @item = Item.new
@@ -7,9 +12,11 @@ class ItemsController < ApplicationController
 
   def create
     @item = Item.new(item_params)
+
     if @item.save
       redirect_to root_path
     else
+
       render :new, status: :unprocessable_entity
     end
   end
@@ -18,6 +25,7 @@ class ItemsController < ApplicationController
 
   def item_params
     params.require(:item).permit(
+      :image,
       :name,
       :description,
       :category_id,
@@ -25,8 +33,7 @@ class ItemsController < ApplicationController
       :delivery_fee_id,
       :prefecture_id,
       :scheduled_delivery_id,
-      :price,
-      :image
-    ).merge(user_id: current_user.id)
+      :price
+    ).merge(user_id: current_user.id) # ここでuser_idを合体させる
   end
 end
