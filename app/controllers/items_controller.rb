@@ -3,7 +3,8 @@ class ItemsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create]
 
   def index
-    @items = Item.all.order(created_at: :desc)
+  # @items = Item.all.order(created_at: :desc) <- この行を削除または # でコメントアウト
+end
   end
 
   def new
