@@ -1,4 +1,4 @@
-def change
+class CreateItems < ActiveRecord::Migration[7.0] # ← ここが CreateItems である必要がありますdef change
   create_table :items do |t|
     t.string     :name,                   null: false
     t.text       :info,                   null: false # ここを設計書通りの「info」にする
