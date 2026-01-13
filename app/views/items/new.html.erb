@@ -31,7 +31,8 @@
           <div class="weight-bold-text">
             商品の説明 <span class="indispensable">必須</span>
           </div>
-          <%= f.text_area :description, class: "items-text", id: "item-info", placeholder: "商品の説明（必須 1,000文字まで）", rows: 7, maxlength: 1000 %>
+          <%# :description から :info に修正しました %>
+          <%= f.text_area :info, class: "items-text", id: "item-info", placeholder: "商品の説明（必須 1,000文字まで）", rows: 7, maxlength: 1000 %>
         </div>
       </div>
 
@@ -43,7 +44,8 @@
           <%= f.collection_select :category_id, Category.all, :id, :name, {}, { class: "select-box" } %>
 
           <div class="weight-bold-text">商品の状態 <span class="indispensable">必須</span></div>
-          <%= f.collection_select :status_id, Status.all, :id, :name, {}, { class: "select-box" } %>
+          <%# :status_id から :sales_status_id に修正しました %>
+          <%= f.collection_select :sales_status_id, SalesStatus.all, :id, :name, {}, { class: "select-box" } %>
         </div>
       </div>
 
@@ -52,7 +54,8 @@
         <div class="weight-bold-text question-text"><span>配送について</span> <a class="question" href="#">?</a></div>
         <div class="form">
           <div class="weight-bold-text">配送料の負担 <span class="indispensable">必須</span></div>
-          <%= f.collection_select :delivery_fee_id, DeliveryFee.all, :id, :name, {}, { class: "select-box" } %>
+          <%# :delivery_fee_id から :shipping_fee_status_id に修正しました %>
+          <%= f.collection_select :shipping_fee_status_id, ShippingFeeStatus.all, :id, :name, {}, { class: "select-box" } %>
 
           <div class="weight-bold-text">発送元の地域 <span class="indispensable">必須</span></div>
           <%= f.collection_select :prefecture_id, Prefecture.all, :id, :name, {}, { class: "select-box" } %>
