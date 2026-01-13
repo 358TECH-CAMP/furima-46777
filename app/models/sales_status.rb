@@ -1,6 +1,7 @@
-class Status < ActiveHash::Base
+# app/models/sales_status.rb
+class SalesStatus < ActiveHash::Base
   self.data = [
-    { id: 1, name: '---' }, # 0 から 1 に変更
+    { id: 1, name: '---' },
     { id: 2, name: '新品・未使用' },
     { id: 3, name: '未使用に近い' },
     { id: 4, name: '目立った傷や汚れなし' },
@@ -8,4 +9,7 @@ class Status < ActiveHash::Base
     { id: 6, name: '傷や汚れあり' },
     { id: 7, name: '全体的に状態が悪い' }
   ]
+
+  include ActiveHash::Associations
+  has_many :items
 end
