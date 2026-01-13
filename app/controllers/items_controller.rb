@@ -3,8 +3,7 @@ class ItemsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create]
 
   def index
-  # @items = Item.all.order(created_at: :desc) <- この行を削除または # でコメントアウト
-end
+    # @items = Item.all.order(created_at: :desc)
   end
 
   def new
@@ -13,11 +12,9 @@ end
 
   def create
     @item = Item.new(item_params)
-
     if @item.save
       redirect_to root_path
     else
-
       render :new, status: :unprocessable_entity
     end
   end
@@ -28,13 +25,13 @@ end
     params.require(:item).permit(
       :image,
       :name,
-      :description,
+      :info, # ← description から info に修正しました
       :category_id,
-      :status_id,
-      :delivery_fee_id,
+      :sales_status_id,        # マイグレーションファイルの sales_status_id と合わせる
+      :shipping_fee_status_id, # マイグレーションファイルの shipping_fee_status_id と合わせる
       :prefecture_id,
       :scheduled_delivery_id,
       :price
-    ).merge(user_id: current_user.id) # ここでuser_idを合体させる
+    ).merge(user_id: current_user.id)
   end
 end
