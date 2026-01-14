@@ -1,6 +1,9 @@
 class ItemsController < ApplicationController
   # ログインしていない場合はログインページへリダイレクト
-  before_action :authenticate_user!, only: [:new, :create]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update]
+  before_action :set_item, only: [:show, :edit, :update]
+  # 出品者でないならトップページへ戻す
+  before_action :move_to_index, only: [:edit, :update]
 
   def index
     @items = Item.all.order(created_at: :desc)
@@ -24,6 +27,21 @@ class ItemsController < ApplicationController
     @item = Item.find(params[:id])
   end
 
+  def edit
+    # 購入機能実装後、以下を生かすことで「売却済み商品の編集」を制限できます
+    # if @item.order.present?
+    #   redirect_to root_path
+    # end
+  end
+
+  def update
+    if @item.update(item_params)
+      redirect_to item_path(@item.id)
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def item_params
@@ -38,5 +56,15 @@ class ItemsController < ApplicationController
       :scheduled_delivery_id,
       :price
     ).merge(user_id: current_user.id)
+  end
+
+  def set_item
+    @item = Item.find(params[:id])
+  end
+
+  def move_to_index
+    return if current_user.id == @item.user_id
+
+    redirect_to root_path
   end
 end
