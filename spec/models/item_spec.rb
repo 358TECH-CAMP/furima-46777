@@ -20,10 +20,9 @@ RSpec.describe Item, type: :model do
       end
 
       it '商品説明が空だと保存できない' do
-        # @item.info を @item.description に修正
-        @item.description = ''
+        @item.info = ''
         @item.valid?
-        expect(@item.errors.full_messages).to include("Description can't be blank")
+        expect(@item.errors.full_messages).to include("Info can't be blank")
       end
 
       it '価格が空だと保存できない' do
@@ -57,22 +56,21 @@ RSpec.describe Item, type: :model do
       end
 
       it 'カテゴリーが---だと保存できない' do
-        # 0 ではなく 1 (バリデーションの other_than: 1) に修正
         @item.category_id = 1
         @item.valid?
         expect(@item.errors.full_messages).to include("Category can't be blank")
       end
 
       it '商品の状態が---だと保存できない' do
-        @item.status_id = 1
+        @item.sales_status_id = 1
         @item.valid?
-        expect(@item.errors.full_messages).to include("Status can't be blank")
+        expect(@item.errors.full_messages).to include("Sales status can't be blank")
       end
 
       it '配送料の負担が---だと保存できない' do
-        @item.delivery_fee_id = 1
+        @item.shipping_fee_status_id = 1
         @item.valid?
-        expect(@item.errors.full_messages).to include("Delivery fee can't be blank")
+        expect(@item.errors.full_messages).to include("Shipping fee status can't be blank")
       end
 
       it '発送元の地域が---だと保存できない' do
@@ -87,7 +85,7 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include("Scheduled delivery can't be blank")
       end
 
-      it 'userが紐付いていないと保存できない' do
+      it 'user가 紐付いていないと保存できない' do
         @item.user = nil
         @item.valid?
         expect(@item.errors.full_messages).to include('User must exist')
