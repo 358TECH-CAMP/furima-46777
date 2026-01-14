@@ -129,7 +129,7 @@
         <%# 【変更箇所】eachメソッドで商品の数だけ繰り返し表示 %>
         <% @items.each do |item| %>
           <li class='list'>
-            <%= link_to "#" do %>
+            <%= link_to item_path(item.id) do %>
             <div class='item-img-content'>
               <%# 【変更箇所】ActiveStorageで保存した画像を表示 %>
               <%= image_tag item.image, class: "item-img" %>
