@@ -1,5 +1,7 @@
 const pay = () => {
-  const payjp = Payjp(process.env.PAYJP_PUBLIC_KEY); // PAY.JP公開鍵
+  // カリキュラム通り：gonを使って公開鍵（public_key）を読み込む
+  const payjp = Payjp(gon.public_key); 
+
   const elements = payjp.elements();
   const numberElement = elements.create('cardNumber');
   const expiryElement = elements.create('cardExpiry');
@@ -12,7 +14,7 @@ const pay = () => {
 
   const form = document.getElementById('charge-form');
   form.addEventListener("submit", (e) => {
-    e.preventDefault(); // Railsへの送信を一旦止める
+    e.preventDefault();
     payjp.createToken(numberElement).then(function (response) {
       if (response.error) {
       } else {
@@ -21,9 +23,16 @@ const pay = () => {
         const tokenObj = `<input value=${token} name='token' type="hidden">`;
         renderDom.insertAdjacentHTML("beforeend", tokenObj);
       }
-      form.submit(); // 暗号を合体させてから、Railsへ送信
+      
+      // フォームにあるカード情報をクリアして、トークンだけを送る状態にする
+      numberElement.clear();
+      expiryElement.clear();
+      cvcElement.clear();
+
+      form.submit();
     });
   });
 };
 
 window.addEventListener("turbo:load", pay);
+
