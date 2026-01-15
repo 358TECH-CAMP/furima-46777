@@ -8,3 +8,5 @@ pin_all_from "app/javascript/controllers", under: "controllers"
 
 # 自作JSを追加
 pin "item_price", to: "item_price.js"
+# 【追加】card.jsというファイルを「card」という名前で使うことをRailsに登録する
+pin "card", to: "card.js"
