@@ -5,6 +5,8 @@ class OrdersController < ApplicationController
   before_action :prevent_invalid_access, only: [:index, :create]
 
   def index
+    # JS側に環境変数を渡す
+    gon.public_key = ENV['PAYJP_PUBLIC_KEY']
     @order_address = OrderAddress.new
   end
 
@@ -16,6 +18,8 @@ class OrdersController < ApplicationController
       @order_address.save
       redirect_to root_path
     else
+      # バリデーションエラーで購入ページに戻る際も、JS側で鍵が必要になるため再定義
+      gon.public_key = ENV['PAYJP_PUBLIC_KEY']
       render :index, status: :unprocessable_entity
     end
   end
