@@ -29,7 +29,8 @@
     <% if user_signed_in? %>
       <%# ログインかつ出品者の場合 %>
       <% if current_user.id == @item.user_id %>
-        <%= link_to "商品の編集", "#", method: :get, class: "item-red-btn" %>
+      <%#編集リンクを修正 パスを正しく指定 %>
+        <%= link_to "商品の編集", edit_item_path(@item.id), method: :get, class: "item-red-btn" %>
         <p class="or-text">or</p>
         <%= link_to "削除", "#", data: {turbo_method: :delete}, class:"item-destroy" %>
       <% else %>
