@@ -1,9 +1,10 @@
 class ItemsController < ApplicationController
-  # ログインしていない場合はログインページへリダイレクト
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update]
-  before_action :set_item, only: [:show, :edit, :update]
-  # 出品者でないならトップページへ戻す
-  before_action :move_to_index, only: [:edit, :update]
+  # ログインしていない場合はログインページへリダイレクト（destroyを追加）
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+  # show, edit, update, destroyのアクション前に@itemを定義
+  before_action :set_item, only: [:show, :edit, :update, :destroy]
+  # 出品者でないならトップページへ戻す（destroyを追加）
+  before_action :move_to_index, only: [:edit, :update, :destroy]
 
   def index
     @items = Item.all.order(created_at: :desc)
@@ -39,6 +40,12 @@ class ItemsController < ApplicationController
     else
       render :edit, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+    # 削除してトップページへリダイレクト
+    @item.destroy
+    redirect_to root_path
   end
 
   private
