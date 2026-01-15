@@ -22,17 +22,14 @@ const pay = () => {
   numberElement.mount('#number-form');
   expiryElement.mount('#expiry-form');
   cvcElement.mount('#cvc-form');
-  form.addEventListener("submit", (e) => {
+form.addEventListener("submit", (e) => {
     e.preventDefault();
     payjp.createToken(numberElement).then(function (response) {
-      if (response.error) {
-      } else {
+      if (!response.error) {
         const token = response.id;
-      // トークンをフォームに追加
-        const tokenObj = `<input value="${token}" name='token' type="hidden">`;
+        const tokenObj = `<input value="${token}" name="token" type="hidden">`;
         form.insertAdjacentHTML("beforeend", tokenObj);
       }
-      
       // // これを行うとトークンが正しく送信されないケースがあるため、numberElement.clear() などの clear処理を削除します。
       // numberElement.clear();
       // expiryElement.clear();
