@@ -23,8 +23,7 @@ class ItemsController < ApplicationController
   end
 
   def show
-    # 特定の商品データを取得
-    @item = Item.find(params[:id])
+    # before_actionのset_itemによって@itemが定義されているため、中身は空でOK
   end
 
   def edit
