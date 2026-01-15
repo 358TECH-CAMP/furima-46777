@@ -1,5 +1,16 @@
 const pay = () => {
   // カリキュラム通り：gonを使って公開鍵（public_key）を読み込む
+   // 1. 公開鍵が準備できていない場合は何もしない（gonエラー対策）
+  if (typeof gon === 'undefined' || !gon.public_key) return;
+
+  // 2. そもそもフォームがないページでは何もしない
+  const form = document.getElementById('charge-form');
+  if (!form) return;
+
+  // 3. すでに入力欄がある場合は、新しく作らない（「既にインスタンス化...」エラー対策）
+  const numberForm = document.getElementById('number-form');
+  if (numberForm && numberForm.innerHTML !== "") return;
+
   const payjp = Payjp(gon.public_key); 
 
   const elements = payjp.elements();
@@ -11,17 +22,15 @@ const pay = () => {
   numberElement.mount('#number-form');
   expiryElement.mount('#expiry-form');
   cvcElement.mount('#cvc-form');
-
-  const form = document.getElementById('charge-form');
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     payjp.createToken(numberElement).then(function (response) {
       if (response.error) {
       } else {
         const token = response.id;
-        const renderDom = document.getElementById("charge-form");
-        const tokenObj = `<input value=${token} name='token' type="hidden">`;
-        renderDom.insertAdjacentHTML("beforeend", tokenObj);
+      // トークンをフォームに追加
+        const tokenObj = `<input value="${token}" name='token' type="hidden">`;
+        form.insertAdjacentHTML("beforeend", tokenObj);
       }
       
       // // これを行うとトークンが正しく送信されないケースがあるため、numberElement.clear() などの clear処理を削除します。
