@@ -24,15 +24,16 @@ const pay = () => {
         renderDom.insertAdjacentHTML("beforeend", tokenObj);
       }
       
-      // フォームにあるカード情報をクリアして、トークンだけを送る状態にする
-      numberElement.clear();
-      expiryElement.clear();
-      cvcElement.clear();
+      // // これを行うとトークンが正しく送信されないケースがあるため、numberElement.clear() などの clear処理を削除します。
+      // numberElement.clear();
+      // expiryElement.clear();
+      // cvcElement.clear();
 
       form.submit();
     });
   });
 };
 
+// ページ読み込み時と、バリデーションエラーでページが再描画された時、両方で発火させる
 window.addEventListener("turbo:load", pay);
-
+window.addEventListener("turbo:render", pay);
