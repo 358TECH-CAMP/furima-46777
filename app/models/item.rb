@@ -1,5 +1,6 @@
 class Item < ApplicationRecord
   belongs_to :user
+  has_one :order # Itemモデルにorderとのアソシエーションを追加しNoMethodErrorを解消
   has_one_attached :image
 
   extend ActiveHash::Associations::ActiveRecordExtensions
