@@ -8,8 +8,8 @@
     <div class="item-img-content">
       <%= image_tag @item.image, class:"item-box-img" %>
       
-      <%# 補足条件に基づき、購入機能実装後に条件式（sold out）を記述 %>
-      <% if false %>
+ <%# 売却済みの場合はsold-outを表示 %>
+      <% if @item.order.present? %>
         <div class="sold-out">
           <span>Sold Out!!</span>
         </div>
@@ -34,9 +34,9 @@
         <p class="or-text">or</p>
       <%# 削除リンクのパスを指定 %>
         <%= link_to "削除", item_path(@item.id), data: {turbo_method: :delete}, class:"item-destroy" %>
-      <% else %>
-        <%# ログインかつ出品者以外の場合（※売却済み判定は購入機能実装後） %>
-        <%= link_to "購入画面に進む", "#" ,class:"item-red-btn"%>
+     <% elsif @item.order.blank? %>
+        <%# 出品者以外かつ、未購入（販売中）の場合のみ購入ボタンを表示 %>
+        <%= link_to "購入画面に進む", item_orders_path(@item.id) ,class:"item-red-btn"%>
       <% end %>
     <% end %>
 
