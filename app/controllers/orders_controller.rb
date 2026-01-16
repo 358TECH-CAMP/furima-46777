@@ -48,7 +48,10 @@ class OrdersController < ApplicationController
     # Ruby自体の証明書チェックを、このメソッドが実行されている間だけ開発環境でオフにします
     # if Rails.env.development?
     #   require 'openssl'
-    #   OpenSSL::SSL.const_set(:VERIFY_PEER, OpenSSL::SSL::VERIFY_NONE) unless OpenSSL::SSL.const_defined?(:VERIFY_PEER_ALREADY_SET)
+    unless OpenSSL::SSL.const_defined?(:VERIFY_PEER_ALREADY_SET)
+      OpenSSL::SSL.const_set(:VERIFY_PEER,
+                             OpenSSL::SSL::VERIFY_NONE)
+    end
     # end
 
     Payjp::Charge.create(
