@@ -6,7 +6,9 @@ class User < ApplicationRecord
          :recoverable,
          # :rememberable,
          :validatable
-
+  # アソシエーションを追加
+  has_many :items    # ユーザーは複数の商品を出品できる
+  has_many :orders   # ユーザーは複数の商品を購入できる
   # ニックネーム
   validates :nickname, presence: { message: 'を入力してください' }
 
