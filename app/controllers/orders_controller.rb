@@ -1,4 +1,6 @@
 class OrdersController < ApplicationController
+  # PAY.JP の機能を認識
+  require 'payjp'
   before_action :authenticate_user! # ログインしていない人はログイン画面へ
   before_action :set_item, only: [:index, :create]
   # 出品者や売却済み商品の購入を防ぐ制限を追加
