@@ -26,6 +26,7 @@
     </div>
 
     <%# ログイン状態の判定 %>
+    <% if user_signed_in? %>
       <%# 出品者の場合 %>
       <% if current_user.id == @item.user_id && @item.order.blank? %>
         <%= link_to "商品の編集", edit_item_path(@item.id), method: :get, class: "item-red-btn" %>
