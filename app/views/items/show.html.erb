@@ -8,8 +8,8 @@
     <div class="item-img-content">
       <%= image_tag @item.image, class:"item-box-img" %>
       
-      <%# 補足条件に基づき、購入機能実装後に条件式（sold out）を記述 %>
-      <% if false %>
+      <%# 売却済みの場合はsold-outを表示 %>
+      <% if @item.order.present? %>
         <div class="sold-out">
           <span>Sold Out!!</span>
         </div>
@@ -27,16 +27,16 @@
 
     <%# ログイン状態の判定 %>
     <% if user_signed_in? %>
-      <%# ログインかつ出品者の場合 %>
-      <% if current_user.id == @item.user_id %>
-      <%#編集リンクを修正 パスを正しく指定 %>
+      <%# 出品者の場合 %>
+      <% if current_user.id == @item.user_id && @item.order.blank? %>
         <%= link_to "商品の編集", edit_item_path(@item.id), method: :get, class: "item-red-btn" %>
         <p class="or-text">or</p>
-      <%# 削除リンクのパスを指定 %>
         <%= link_to "削除", item_path(@item.id), data: {turbo_method: :delete}, class:"item-destroy" %>
-      <% else %>
-        <%# ログインかつ出品者以外の場合（※売却済み判定は購入機能実装後） %>
-        <%= link_to "購入画面に進む", "#" ,class:"item-red-btn"%>
+      
+      <%# 2. 出品者以外であり、かつ未購入（販売中）の場合のみ「購入」を表示 %>
+      <% elsif current_user.id != @item.user_id && @item.order.blank? %>
+        <%# 【重要】data: { turbo: false } を追加してJavaScriptが動くように設定 %>
+        <%= link_to "購入画面に進む", item_orders_path(@item.id), data: { turbo: false }, class: "item-red-btn" %>
       <% end %>
     <% end %>
 
@@ -93,7 +93,7 @@
       </p>
       <button type="submit" class="comment-btn">
         <%= image_tag "comment.png" ,class:"comment-flag-icon" ,width:"20",height:"25"%>
-        <span>コメントする<span>
+        <span>コメントする</span>
       </button>
     </form>
   </div>

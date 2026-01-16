@@ -82,3 +82,11 @@ end
 gem 'devise'
 
 gem 'active_hash'
+
+# Railsの環境変数をJavaScriptで使えるようにするため、gon というライブラリを使います
+gem 'gon'
+
+# .envファイルから環境変数を読み込むためのGemを追加
+gem 'dotenv-rails'
+
+gem 'payjp'

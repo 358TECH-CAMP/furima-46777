@@ -61,4 +61,11 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
+  # ------------------------------------------------------------------
+  # カリキュラムの指示による追記：MySQLの接続エラー（connection is in use）を回避します
+  config.active_job.queue_adapter = :inline
+  
+  # Rails 7.1以降で並列処理によるDB接続の競合を防ぐための設定です
+  config.active_support.isolation_level = :thread
+  # ------------------------------------------------------------------
 end
