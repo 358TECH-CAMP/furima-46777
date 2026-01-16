@@ -134,8 +134,8 @@
               <%# 【変更箇所】ActiveStorageで保存した画像を表示 %>
               <%= image_tag item.image, class: "item-img" %>
               
-              <%# 【変更箇所】売却済み表示の器（現時点では常に非表示） %>
-              <% if false %>
+        <%# 画像の上に重ねるイメージで以下を追記 %>
+              <% if item.order.present? %>
                 <div class='sold-out'>
                   <span>Sold Out!!</span>
                 </div>

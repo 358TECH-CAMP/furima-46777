@@ -26,15 +26,14 @@
     </div>
 
     <%# ログイン状態の判定 %>
-    <% if user_signed_in? %>
       <%# 出品者の場合 %>
       <% if current_user.id == @item.user_id && @item.order.blank? %>
         <%= link_to "商品の編集", edit_item_path(@item.id), method: :get, class: "item-red-btn" %>
         <p class="or-text">or</p>
         <%= link_to "削除", item_path(@item.id), data: {turbo_method: :delete}, class:"item-destroy" %>
       
-      <%# 出品者以外かつ、未購入（販売中）の場合のみ購入ボタンを表示 %>
-      <% elsif @item.order.blank? %>
+      <%# 2. 出品者以外であり、かつ未購入（販売中）の場合のみ「購入」を表示 %>
+      <% elsif current_user.id != @item.user_id && @item.order.blank? %>
         <%# 【重要】data: { turbo: false } を追加してJavaScriptが動くように設定 %>
         <%= link_to "購入画面に進む", item_orders_path(@item.id), data: { turbo: false }, class: "item-red-btn" %>
       <% end %>
