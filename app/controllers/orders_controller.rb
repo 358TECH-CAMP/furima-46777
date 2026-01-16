@@ -63,8 +63,6 @@ class OrdersController < ApplicationController
 
   def prevent_invalid_access
     # 出品者本人、または売却済みの場合
-    return unless current_user.id == @item.user_id || @item.order.present?
-
-    redirect_to root_path
+    redirect_to root_path if current_user.id == @item.user_id || @item.order.present?
   end
 end
