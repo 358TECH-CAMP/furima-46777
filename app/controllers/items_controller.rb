@@ -69,7 +69,9 @@ class ItemsController < ApplicationController
   end
 
   def move_to_index
-    return if current_user.id == @item.user_id
+    # 【修正箇所】「出品者でない」または「すでに売却済み」の場合にトップページへ戻す
+    # 指摘事項：購入済み商品の編集ページ遷移を制限するロジックを追加しました
+    if current_user.id != @item.user_id || @item.order.present?
 
     redirect_to root_path
   end
