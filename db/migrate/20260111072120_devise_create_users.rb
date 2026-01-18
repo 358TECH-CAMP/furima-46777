@@ -1,6 +1,7 @@
 class DeviseCreateUsers < ActiveRecord::Migration[7.1]
   def change
-    create_table :users do |t|
+    # デプロイエラーを防ぐため、usersテーブルのマイグレーションにif_not_existsを追加）
+   create_table :users, if_not_exists: true do |t|
       ## Custom columns
       t.string :nickname,           null: false
       t.string :last_name,          null: false
