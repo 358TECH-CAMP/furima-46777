@@ -1,6 +1,7 @@
 class CreateAddresses < ActiveRecord::Migration[7.1]
   def change
-    create_table :addresses do |t|
+    # if_not_exists: true を追加
+    create_table :addresses, if_not_exists: true do |t|
       t.string     :postal_code,   null: false
       t.integer    :prefecture_id, null: false
       t.string     :city,          null: false
