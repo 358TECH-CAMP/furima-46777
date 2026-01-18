@@ -1,5 +1,7 @@
 class CreateItems < ActiveRecord::Migration[7.0] # ← ここが CreateItems である必要がありますdef change
-  create_table :items do |t|
+  def change
+     # if_not_exists: true を追加
+    create_table :items, if_not_exists: true do |t|
     t.string     :name,                   null: false
     t.text       :info,                   null: false # ここを設計書通りの「info」にする
     t.integer    :category_id,            null: false
@@ -10,5 +12,6 @@ class CreateItems < ActiveRecord::Migration[7.0] # ← ここが CreateItems で
     t.integer    :price,                  null: false
     t.references :user,                   null: false, foreign_key: true
     t.timestamps
+     end
   end
 end
