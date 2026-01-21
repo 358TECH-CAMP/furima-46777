@@ -51,7 +51,7 @@ group :development, :test do
   # FactoryBot
   gem "factory_bot_rails"
   gem "faker", "~> 2.20"
-  gem "debug", platforms: %i[mri windows]
+
 end
 
 group :development do
