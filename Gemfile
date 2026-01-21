@@ -76,7 +76,7 @@ group :test do
 end
 group :production do
   # Use PostgreSQL as the database for production (Render用)
-  gem "pg"
+  # gem "pg"
 end
 
 gem 'devise'
