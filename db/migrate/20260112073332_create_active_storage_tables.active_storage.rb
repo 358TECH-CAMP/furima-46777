@@ -1,7 +1,6 @@
 # This migration comes from active_storage (originally 20170806125915)
 class CreateActiveStorageTables < ActiveRecord::Migration[7.0]
   def change
-  
     # Use Active Record's configured type for primary and foreign keys
     primary_key_type, foreign_key_type = primary_and_foreign_key_types
 
@@ -21,6 +20,7 @@ class CreateActiveStorageTables < ActiveRecord::Migration[7.0]
         t.datetime :created_at, null: false
       end
 
+      # MySQLのキー長制限回避のための修正
       t.index [ :key ], unique: true, length: 191
     end
 
@@ -36,7 +36,8 @@ class CreateActiveStorageTables < ActiveRecord::Migration[7.0]
         t.datetime :created_at, null: false
       end
 
-      t.index [ :record_type, :record_id, :name, :blob_id ], name: :index_active_storage_attachments_uniqueness, unique: true
+      # MySQLのキー長制限回避のための修正（複合インデックスの各カラムに制限を追加）
+      t.index [ :record_type, :record_id, :name, :blob_id ], name: :index_active_storage_attachments_uniqueness, unique: true, length: { record_type: 191, name: 191 }
       t.foreign_key :active_storage_blobs, column: :blob_id
     end
 
@@ -45,7 +46,8 @@ class CreateActiveStorageTables < ActiveRecord::Migration[7.0]
       t.belongs_to :blob, null: false, index: false, type: foreign_key_type
       t.string :variation_digest, null: false
 
-      t.index [ :blob_id, :variation_digest ], name: :index_active_storage_variant_records_uniqueness, unique: true
+      # MySQLのキー長制限回避のための修正
+      t.index [ :blob_id, :variation_digest ], name: :index_active_storage_variant_records_uniqueness, unique: true, length: { variation_digest: 191 }
       t.foreign_key :active_storage_blobs, column: :blob_id
     end
   end
