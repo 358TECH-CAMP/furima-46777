@@ -1,3 +1,4 @@
+require 'stringio'
 # DSLとデフォルトタスクの読み込み
 require 'capistrano/setup'
 require 'capistrano/deploy'
