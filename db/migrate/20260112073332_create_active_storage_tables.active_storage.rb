@@ -1,8 +1,7 @@
 # This migration comes from active_storage (originally 20170806125915)
 class CreateActiveStorageTables < ActiveRecord::Migration[7.0]
   def change
-    # --- ActiveStorageのマイグレーション修正 ---
-    ActiveRecord::Schema.default_string_length = 191
+  
     # Use Active Record's configured type for primary and foreign keys
     primary_key_type, foreign_key_type = primary_and_foreign_key_types
 
@@ -22,7 +21,7 @@ class CreateActiveStorageTables < ActiveRecord::Migration[7.0]
         t.datetime :created_at, null: false
       end
 
-      t.index [ :key ], unique: true
+      t.index [ :key ], unique: true, length: 191
     end
 
     # 2. active_storage_attachments
