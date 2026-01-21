@@ -10,8 +10,9 @@ working_directory app_path
 # Unicornの起動に必要なファイルの設置場所を指定
 pid "#{app_path}/tmp/pids/unicorn.pid"
 
-# ポート番号を指定
-listen 3000
+# ポート番号を指定（Nginxと連携するため、3000番ではなくsockファイルを使用するように変更）
+# listen 3000  # ←ここをコメントアウト
+listen "#{app_path}/tmp/sockets/unicorn.sock" # ←ここを新しく追加
 
 # エラーのログを記録するファイルを指定
 stderr_path "#{app_path}/log/unicorn.stderr.log"
