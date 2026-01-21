@@ -1,6 +1,5 @@
-# 1. サーバ上でのアプリケーションコードが設置されているディレクトリを変数に入れておく
-# config/unicorn/production.rb から見て3階層上がプロジェクトのルート(/var/www/furima-46777)
-app_path = File.expand_path('../../../', __FILE__)
+# 1. プロジェクトのルートディレクトリ(/var/www/furima-46777)を指すように設定
+app_path = File.expand_path('../../../../', __FILE__)
 
 # 2. アプリケーションサーバの性能を決定する
 worker_processes 1
