@@ -4,21 +4,21 @@ app_path = File.expand_path('../../', __FILE__)
 # アプリケーションサーバの性能を決定する
 worker_processes 1
 
-# アプリケーションの設置されているディレクトリを指定
-working_directory app_path
+# 自動デプロイ環境と手動デプロイ環境の両方で動くように設定
+# (sharedやcurrentというディレクトリ構成に対応させています)
+working_directory "#{app_path}/current" rescue working_directory app_path
 
 # Unicornの起動に必要なファイルの設置場所を指定
-pid "#{app_path}/tmp/pids/unicorn.pid"
+pid "#{app_path}/shared/tmp/pids/unicorn.pid" rescue pid "#{app_path}/tmp/pids/unicorn.pid"
 
-# ポート番号を指定（Nginxと連携するため、3000番ではなくsockファイルを使用するように変更）
-# listen 3000  # ←ここをコメントアウト
-listen "#{app_path}/tmp/sockets/unicorn.sock" # ←ここを新しく追加
+# ポート番号ではなく、ソケット通信（.sock）を指定
+listen "#{app_path}/shared/tmp/sockets/unicorn.sock" rescue listen "#{app_path}/tmp/sockets/unicorn.sock"
 
 # エラーのログを記録するファイルを指定
-stderr_path "#{app_path}/log/unicorn.stderr.log"
+stderr_path "#{app_path}/shared/log/unicorn.stderr.log" rescue stderr_path "#{app_path}/log/unicorn.stderr.log"
 
 # 通常のログを記録するファイルを指定
-stdout_path "#{app_path}/log/unicorn.stdout.log"
+stdout_path "#{app_path}/shared/log/unicorn.stdout.log" rescue stdout_path "#{app_path}/log/unicorn.stdout.log"
 
 # Railsアプリケーションの応答を待つ上限時間を設定
 timeout 60

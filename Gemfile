@@ -55,6 +55,10 @@ group :development, :test do
 end
 
 group :development do
+   gem 'capistrano', '~> 3.17.1'
+  gem 'capistrano-rails', '~> 1.6.2'
+  gem 'capistrano-rbenv', '~> 2.2.0'
+  gem 'capistrano3-unicorn', '~> 0.2.1'
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
   # Add RuboCop for code linting
